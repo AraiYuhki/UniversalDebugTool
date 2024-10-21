@@ -1,0 +1,33 @@
+{
+    "name": "jp.xeon.universal_debug_tool.runtime",
+    "rootNamespace": "",
+    "references": [
+        "GUID:f51ebe6a0ceec4240a699833d6309b23",
+        "GUID:18e5109d897e1b244ab2dfeaf5482c7b",
+        "GUID:3de88c88fbbb8f944b9210d496af9762",
+        "GUID:ade2c3c0bf384b840a72b26af1050365",
+        "GUID:1dd49a0dcd69aa54a9d0d45d965a70fd",
+        "GUID:6055be8ebefd69e48b49212b09b47b2f",
+        "GUID:75469ad4d38634e559750d17036d5f7c"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [
+        {
+            "name": "com.tayx.graphy",
+            "expression": "",
+            "define": "UNIVERSAL_DEBUG_SUPPORT_GRAPHY"
+        },
+        {
+            "name": "com.yasirkula.ingamedebugconsole",
+            "expression": "",
+            "define": "UNIVERSAL_DEBUG_SUPPORT_IN_GAME_CONSOLE"
+        }
+    ],
+    "noEngineReferences": false
+}

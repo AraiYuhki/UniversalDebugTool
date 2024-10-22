@@ -3,26 +3,29 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.LowLevel;
 
-[Serializable]
-public class GamepadShortcut
+namespace Xeon.UniversalDebugTool.Model
 {
-    [SerializeField]
-    private bool enabled = true;
-    [SerializeField]
-    private GamepadButton[] gamepadShortcuts = new GamepadButton[0];
-
-    public bool Judge()
+    [Serializable]
+    public class GamepadShortcut
     {
-        if (!enabled) return false;
-        var gamepad = Gamepad.current;
-        if (gamepad == null) return false;
+        [SerializeField]
+        private bool enabled = true;
+        [SerializeField]
+        private GamepadButton[] gamepadShortcuts = new GamepadButton[0];
 
-        foreach (var button in gamepadShortcuts)
+        public bool Judge()
         {
-            if (!gamepad[button].isPressed)
-                return false;
-        }
+            if (!enabled) return false;
+            var gamepad = Gamepad.current;
+            if (gamepad == null) return false;
 
-        return true;
+            foreach (var button in gamepadShortcuts)
+            {
+                if (!gamepad[button].isPressed)
+                    return false;
+            }
+
+            return true;
+        }
     }
 }

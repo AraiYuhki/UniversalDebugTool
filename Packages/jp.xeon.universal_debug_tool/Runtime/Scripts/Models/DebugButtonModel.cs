@@ -2,33 +2,36 @@ using UnityEngine;
 using UnityEngine.Events;
 using Xeon.UniversalUI;
 
-public class DebugButtonModel : DebugModelBase
+namespace Xeon.UniversalDebugTool.Model
 {
-    private UnityAction onClick = null;
-    private Sprite icon = null;
-
-    private UniversalButtonWithIcon button = null;
-
-    public DebugButtonModel(string text, UnityAction onClick, Sprite icon = null, int priority = 0)
-        : base(text, priority)
+    public class DebugButtonModel : DebugModelBase
     {
-        this.onClick = onClick;
-        this.icon = icon;
-    }
+        private UnityAction onClick = null;
+        private Sprite icon = null;
 
-    protected void ApplyToButton(UniversalButtonWithIcon button)
-    {
-        button.RemoveSubmitEvent(onClick);
-        button.AddSubmitEvent(onClick);
-        button.Label = Text;
-        button.SetIcon(icon);
-        this.button = button;
-    }
+        private UniversalButtonWithIcon button = null;
 
-    public override void CreateItem(UniversalMenuBase menu, UniversalDebugToolSetting prefabDictionary)
-    {
-        var instance = prefabDictionary.Instantiate<UniversalButtonWithIcon>();
-        ApplyToButton(instance);
-        menu.AddItem(instance);
+        public DebugButtonModel(string text, UnityAction onClick, Sprite icon = null, int priority = 0)
+            : base(text, priority)
+        {
+            this.onClick = onClick;
+            this.icon = icon;
+        }
+
+        protected void ApplyToButton(UniversalButtonWithIcon button)
+        {
+            button.RemoveSubmitEvent(onClick);
+            button.AddSubmitEvent(onClick);
+            button.Label = Text;
+            button.SetIcon(icon);
+            this.button = button;
+        }
+
+        public override void CreateItem(UniversalMenuBase menu, UniversalDebugToolSetting prefabDictionary)
+        {
+            var instance = prefabDictionary.Instantiate<UniversalButtonWithIcon>();
+            ApplyToButton(instance);
+            menu.AddItem(instance);
+        }
     }
 }

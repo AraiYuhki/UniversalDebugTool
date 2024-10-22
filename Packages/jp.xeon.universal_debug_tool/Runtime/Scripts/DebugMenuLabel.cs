@@ -1,14 +1,17 @@
 using TMPro;
 using UnityEngine;
 
-public class DebugMenuLabel : MonoBehaviour
+namespace Xeon.UniversalDebugTool
 {
-    [SerializeField]
-    protected TMP_Text label;
-
-    public virtual string Label
+    public class DebugMenuLabel : MonoBehaviour
     {
-        get => label.text;
-        set => label.text = value;
+        [SerializeField]
+        protected TMP_Text label;
+
+        public virtual string Label
+        {
+            get => label.text;
+            set => label.text = value;
+        }
     }
 }

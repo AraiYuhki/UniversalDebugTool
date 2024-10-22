@@ -1,4 +1,6 @@
 using UnityEngine;
+using Xeon.UniversalDebugTool;
+using Xeon.UniversalDebugTool.Model;
 
 public class DebugController : MonoBehaviour
 {

@@ -7,6 +7,7 @@ using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using Xeon.UniversalDebugTool.Model;
+using Xeon.UniversalDebugTool.Statemachine;
 
 namespace Xeon.UniversalDebugTool
 {
@@ -41,11 +42,14 @@ namespace Xeon.UniversalDebugTool
         private KeyboardShortcut keyboardShortcut = new();
         [SerializeField]
         private GamepadShortcut gamepadShortcut = new();
+        [SerializeField]
+        private DebugDialogManager dialogManager;
 
         private DebugPageModel initialPageModel;
-        private DebugInputSystemActions input;
         private List<IInputActionCollection> inputsToDisable = new();
         private Dictionary<InputAction, bool> actionsEnableStates = new();
+
+        private DebugMenuStateMachine stateMachine;
 
         private int tappedCount = 0;
         private float limitTime = 0f;
@@ -67,9 +71,12 @@ namespace Xeon.UniversalDebugTool
 
         private void Start()
         {
-            input = new DebugInputSystemActions();
-            input.Disable();
-            input.UI.Enable();
+            stateMachine = new DebugMenuStateMachine(dialogManager);
+            stateMachine.AddState(DebugMenuState.Wait, new WaitState());
+            stateMachine.AddState(DebugMenuState.Dialog, new DialogState());
+            stateMachine.AddState(DebugMenuState.Menu, new MenuState(this, keyboardShortcut, gamepadShortcut));
+            stateMachine.AddState(DebugMenuState.Closed, new ClosedState(this, keyboardShortcut, gamepadShortcut));
+            stateMachine.Goto(DebugMenuState.Closed);
         }
 
         private void ClearInputsToDisable(Scene arg0)
@@ -158,6 +165,7 @@ namespace Xeon.UniversalDebugTool
             OpenInitialPage();
             DisableInputs();
             tappedCount = 0;
+            stateMachine.Goto(DebugMenuState.Menu);
         }
 
         public void Hide()
@@ -168,6 +176,7 @@ namespace Xeon.UniversalDebugTool
             canvasGroup.gameObject.SetActive(false);
             RestoreInput();
             tappedCount = 0;
+            stateMachine.Goto(DebugMenuState.Closed);
         }
 
         private void FixedUpdate()
@@ -180,29 +189,20 @@ namespace Xeon.UniversalDebugTool
 
         private void Update()
         {
-            if (keyboardShortcut.Judge() || gamepadShortcut.Judge())
-            {
-                if (!isShow)
-                    Show();
-                else
-                    Hide();
-            }
-            if (pageStack.Count <= 0 || !isShow) return;
-            var menu = pageStack.Last().Menu;
-            if (input.UI.Down.WasPressedThisFrame())
-                menu.Down();
-            else if (input.UI.Up.WasPressedThisFrame())
-                menu.Up();
-            if (input.UI.Right.WasPressedThisFrame())
-                menu.Right();
-            else if (input.UI.Left.WasPressedThisFrame())
-                menu.Left();
-
-            if (input.UI.Submit.WasPressedThisFrame())
-                menu.Submit();
-            else if (input.UI.Cancel.WasPressedThisFrame())
-                CloseCurrentPage();
+            stateMachine.Current?.InputUpdate();
         }
+
+        private void LateUpdate()
+        {
+            stateMachine.Update();
+        }
+
+        public void Up() => pageStack.Last().Menu.Up();
+        public void Down() => pageStack.Last().Menu.Down();
+        public void Left() => pageStack.Last().Menu.Left();
+        public void Right() => pageStack.Last().Menu.Right();
+        public void Submit() => pageStack.Last().Menu.Submit();
+        public void Cancel() => CloseCurrentPage();
 
         private void OnValidate()
         {
@@ -213,7 +213,8 @@ namespace Xeon.UniversalDebugTool
 
         private void OnDestroy()
         {
-            input.Dispose();
+            stateMachine.Dispose();
+            stateMachine = null;
         }
 
         public async void OpenPage(DebugPageModel pageModel)
@@ -244,6 +245,16 @@ namespace Xeon.UniversalDebugTool
                 Destroy(page);
             pageStack.Clear();
             backButton.gameObject.SetActive(pageStack.Count > 1);
+        }
+
+        public UniTask<bool> OpenYesNoDialog(string title, string message)
+        {
+            return stateMachine.OpenYesNoDialog(title, message);
+        }
+
+        public UniTask OpenConfirmDialog(string title, string message)
+        {
+            return stateMachine.OpenConfirmDialog(title, message);
         }
     }
 }

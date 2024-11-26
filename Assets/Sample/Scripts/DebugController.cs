@@ -60,6 +60,15 @@ public class DebugController : MonoBehaviour
         initialPage.AddToggle(testToggleModel);
         initialPage.AddInputField(testInputModel);
 
+        initialPage.AddButton("Open dialog", async () =>
+        {
+            var result = await menu.OpenYesNoDialog("Test", "Test message");
+            if (result)
+            {
+                await menu.OpenConfirmDialog("Confirm", "Prease press OK button");
+            }
+        });
+
         initialPage.AddPageLinkButton<GraphyDebugPageModel>("Graphy");
         initialPage.AddPageLinkButton<InGameDebugConsolePageModel>("In game debug console");
 

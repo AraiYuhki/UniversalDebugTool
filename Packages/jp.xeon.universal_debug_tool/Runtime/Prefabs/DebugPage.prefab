@@ -236,6 +236,10 @@ PrefabInstance:
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 4919705534727264284, guid: cb3ca00e605a38d4faf103925b2f1718, type: 3}
+      propertyPath: m_Direction
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 6633157641759393974, guid: cb3ca00e605a38d4faf103925b2f1718, type: 3}
       propertyPath: m_Name
       value: UniversalVerticalScrollMenu
@@ -247,6 +251,10 @@ PrefabInstance:
     - target: {fileID: 8146102367322000500, guid: cb3ca00e605a38d4faf103925b2f1718, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8728435742329066967, guid: cb3ca00e605a38d4faf103925b2f1718, type: 3}
+      propertyPath: m_Pivot.y
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8790446109943755390, guid: cb3ca00e605a38d4faf103925b2f1718, type: 3}
       propertyPath: m_LocalPosition.y

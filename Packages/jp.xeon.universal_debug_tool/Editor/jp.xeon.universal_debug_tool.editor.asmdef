@@ -1,0 +1,18 @@
+{
+    "name": "jp.xeon.universal_debug_tool.editor",
+    "rootNamespace": "",
+    "references": [
+        "GUID:1c9f491cb80f5814995f339271688312"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

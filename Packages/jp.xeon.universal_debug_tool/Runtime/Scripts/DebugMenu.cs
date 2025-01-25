@@ -159,7 +159,7 @@ namespace Xeon.UniversalDebugTool
         {
             if (isShow) return;
             isShow = true;
-            pageStack.FirstOrDefault()?.Reopen();
+            pageStack.LastOrDefault()?.Reopen();
             openButton.gameObject.SetActive(false);
             canvasGroup.gameObject.SetActive(true);
             OpenInitialPage();
